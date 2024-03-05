@@ -2,6 +2,27 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 import sqlite3
+import sys, os
+
+
+if getattr(sys, 'frozen', False):
+    # The application is frozen
+    application_path = os.path.dirname(sys.executable)
+else:
+    # The application is not frozen
+    application_path = os.path.dirname(os.path.abspath(__file__))
+
+database_path = os.path.join(application_path, 'materials.db')
+conn = sqlite3.connect(database_path)
+
+c = conn.cursor()
+c.execute('''CREATE TABLE IF NOT EXISTS materials (
+             ID INTEGER PRIMARY KEY,
+             Name TEXT,
+             Unit TEXT,
+             Price FLOAT
+             )''')
+conn.commit()
 
 conn = sqlite3.connect('materials.db')
 c = conn.cursor()
